@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🍺 BEER CLICKER · пивная легенда</title>
+    <title>🍺 BEER IMPERIUM · пивная империя</title>
     <style>
         * {
             margin: 0;
@@ -30,7 +30,6 @@
             box-shadow: 0 0 60px #f5a62333, inset 0 0 30px #1a140e;
             position: relative;
         }
-        /* Шапка */
         .header {
             display: flex;
             justify-content: space-between;
@@ -100,7 +99,6 @@
             color: #a57a3a;
         }
 
-        /* Кликер */
         .clicker-area {
             margin: 16px 0 12px;
             background: #14100a;
@@ -144,7 +142,6 @@
             border: 1px solid #4d3a1a;
         }
 
-        /* Статы */
         .stats-row {
             display: flex;
             justify-content: space-between;
@@ -169,24 +166,25 @@
             letter-spacing: 0.3px;
         }
 
-        /* Вкладки */
         .tabs {
             display: flex;
             gap: 4px;
             margin: 12px 0 10px;
+            flex-wrap: wrap;
         }
         .tabs button {
             flex: 1;
             background: #0d0a07;
             border: none;
             color: #5a4a3a;
-            padding: 8px 0;
+            padding: 6px 0;
             border-radius: 30px;
             font-weight: 700;
-            font-size: 12px;
+            font-size: 11px;
             cursor: pointer;
             transition: 0.15s;
             border: 1px solid #1a140e;
+            min-width: 60px;
         }
         .tabs button.active {
             background: #2a1f12;
@@ -200,7 +198,7 @@
             background: #0d0a07;
             border-radius: 20px;
             padding: 4px 0;
-            max-height: 280px;
+            max-height: 320px;
             overflow-y: auto;
             border: 1px solid #1a140e;
         }
@@ -215,8 +213,7 @@
             border-radius: 10px;
         }
 
-        /* Магазин */
-        .shop-item {
+        .shop-item, .factory-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -227,20 +224,20 @@
             border-left: 4px solid #3a2a1a;
             transition: 0.1s;
         }
-        .shop-item .info {
+        .shop-item .info, .factory-item .info {
             display: flex;
             flex-direction: column;
         }
-        .shop-item .name {
+        .shop-item .name, .factory-item .name {
             font-weight: 700;
             font-size: 14px;
             color: #f0e6d3;
         }
-        .shop-item .desc {
+        .shop-item .desc, .factory-item .desc {
             font-size: 10px;
             color: #6a5a4a;
         }
-        .shop-item .price {
+        .shop-item .price, .factory-item .price {
             background: #1a140e;
             padding: 4px 14px;
             border-radius: 30px;
@@ -251,16 +248,18 @@
             cursor: pointer;
             transition: 0.1s;
         }
-        .shop-item .price:active {
+        .shop-item .price:active, .factory-item .price:active {
             transform: scale(0.92);
             background: #2a1f12;
         }
-        .shop-item .price.disabled {
+        .shop-item .price.disabled, .factory-item .price.disabled {
             opacity: 0.4;
             pointer-events: none;
         }
+        .factory-item {
+            border-left-color: #f5a623;
+        }
 
-        /* Лидеры */
         .leader-item {
             display: flex;
             justify-content: space-between;
@@ -289,12 +288,7 @@
             color: #f5a623;
             font-size: 13px;
         }
-        .leader-item .lavatar {
-            font-size: 20px;
-            margin-right: 6px;
-        }
 
-        /* Футер */
         .footer {
             margin-top: 12px;
             display: flex;
@@ -304,6 +298,8 @@
             color: #3a2a1a;
             border-top: 1px solid #1a140e;
             padding-top: 10px;
+            flex-wrap: wrap;
+            gap: 6px;
         }
         .footer button {
             background: none;
@@ -325,7 +321,6 @@
             font-weight: 700;
         }
 
-        /* Модальное окно профиля */
         .modal {
             display: none;
             position: fixed;
@@ -346,10 +341,12 @@
             background: #1a140e;
             padding: 24px;
             border-radius: 32px;
-            max-width: 360px;
-            width: 90%;
+            max-width: 400px;
+            width: 92%;
             border: 2px solid #f5a623;
             box-shadow: 0 0 60px #f5a62333;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         .modal-content h2 {
             color: #f5a623;
@@ -419,6 +416,40 @@
             color: #5a4a3a;
             margin-top: 2px;
         }
+        .command-hint {
+            color: #5a4a3a;
+            font-size: 11px;
+            text-align: center;
+            margin-top: 8px;
+            padding: 8px;
+            background: #0d0a07;
+            border-radius: 20px;
+            border: 1px solid #1a140e;
+        }
+        .command-hint code {
+            color: #f5a623;
+            background: #1a140e;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+        }
+        .offline-earn {
+            background: #1a140e;
+            padding: 8px 12px;
+            border-radius: 20px;
+            margin: 6px 0;
+            text-align: center;
+            border: 1px solid #2a1f12;
+            color: #8a7a6a;
+            font-size: 12px;
+        }
+        .offline-earn strong {
+            color: #f5a623;
+        }
+        .total-power {
+            color: #f5a623;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -429,10 +460,10 @@
         <div class="user-info" id="openProfile">
             <div class="avatar" id="avatarDisplay">🍺</div>
             <div class="user-details">
-                <div class="user-name" id="userName">Пивной_мастер</div>
+                <div class="user-name" id="userName">Гость</div>
                 <div class="user-level">⭐ LVL <span id="userLevel">1</span></div>
             </div>
-            <span class="online-badge">● LIVE</span>
+            <span class="online-badge" id="onlineBadge">● LIVE</span>
         </div>
         <div class="coins">🍺 <span id="coinDisplay">0</span><small> BEER</small></div>
     </div>
@@ -444,31 +475,42 @@
         <div class="power-badge">⚡<span id="powerDisplay">1</span></div>
     </div>
 
+    <!-- Оффлайн фарм -->
+    <div class="offline-earn" id="offlineDisplay">⏳ Оффлайн-фарм: <strong id="offlineEarn">0</strong> 🍺</div>
+
     <!-- Статы -->
     <div class="stats-row">
         <div class="stat"><div class="val" id="totalClicks">0</div><div class="lbl">глотков</div></div>
         <div class="stat"><div class="val" id="buffDisplay">0</div><div class="lbl">бафы</div></div>
-        <div class="stat"><div class="val" id="topPosition">#--</div><div class="lbl">место</div></div>
+        <div class="stat"><div class="val" id="factoryCount">0</div><div class="lbl">заводов</div></div>
     </div>
 
     <!-- Вкладки -->
     <div class="tabs">
         <button class="active" data-tab="shop">🏪 Магазин</button>
-        <button data-tab="leaders">🏆 Лидеры</button>
+        <button data-tab="factory">🏭 Заводы</button>
         <button data-tab="buffs">⚡ Бафы</button>
+        <button data-tab="top">🏆 Топ</button>
+        <button data-tab="profile">👤 Профиль</button>
     </div>
 
     <div id="tab-shop" class="tab-content active"></div>
-    <div id="tab-leaders" class="tab-content"></div>
+    <div id="tab-factory" class="tab-content"></div>
     <div id="tab-buffs" class="tab-content"></div>
+    <div id="tab-top" class="tab-content"></div>
+    <div id="tab-profile" class="tab-content"></div>
 
     <!-- Футер -->
     <div class="footer">
         <span>👥 <span class="online-count" id="onlineCount">0</span> пьют с нами</span>
         <div>
             <button id="saveBtn">💾 Сохранить</button>
-            <button id="resetBtn">⟳ Сброс</button>
+            <button id="registerBtn">📝 Регистрация</button>
+            <button id="loginBtn">🔑 Вход</button>
         </div>
+    </div>
+    <div class="command-hint">
+        📋 Команды: <code>/top</code> <code>/list</code> <code>/profile</code> <code>/donate</code> <code>/help</code>
     </div>
 </div>
 
@@ -490,6 +532,19 @@
             <div class="avatar-option" data-avatar="🍹"><div>🍹</div><small>Коктейль</small></div>
         </div>
         <button id="saveProfileBtn">💾 Сохранить профиль</button>
+        <button id="logoutBtn" style="background:#4a2a1a;color:#f0e6d3;">🚪 Выйти</button>
+    </div>
+</div>
+
+<!-- Модальное окно регистрации/входа -->
+<div class="modal" id="authModal">
+    <div class="modal-content">
+        <button class="modal-close" id="closeAuthModal">✕</button>
+        <h2 id="authTitle">🔑 Вход</h2>
+        <input type="text" id="authLogin" placeholder="Логин" maxlength="20">
+        <input type="password" id="authPassword" placeholder="Пароль" maxlength="30">
+        <button id="authSubmitBtn">Войти</button>
+        <button id="authSwitchBtn" style="background:#2a1f12;color:#f5a623;">📝 Регистрация</button>
     </div>
 </div>
 
@@ -498,22 +553,149 @@
         // ---------- СОСТОЯНИЕ ----------
         const state = {
             userId: '',
+            username: 'Гость',
+            password: '',
+            avatar: '🍺',
             coins: 0,
             clickPower: 1,
             totalClicks: 0,
             level: 1,
             exp: 0,
             expToNext: 100,
-            username: 'Пивной_мастер',
-            avatar: '🍺',
             activeBuffs: [],
             buffMultiplier: 1,
             buffActive: false,
             buffTimer: null,
+            // МНОГО ЗАВОДОВ
+            factories: {},
+            factoryCount: 0,
+            totalFactoryPower: 0,
+            // Оффлайн фарм
+            lastOnlineTime: Date.now(),
+            offlineEarn: 0,
+            // Онлайн
             onlineUsers: 0,
+            // База данных
+            usersDB: {},
             leaderboard: [],
+            isAuthenticated: false,
             lastSave: Date.now(),
+            // Магазин с кучей предметов
+            shopItems: [],
         };
+
+        // ---------- ГЕНЕРАЦИЯ ЗАВОДОВ ----------
+        function generateFactories() {
+            const factoryData = [];
+            const names = [
+                '🏭 Пивоварня', '🏭 Крафтовая', '🏭 Мини-завод', '🏭 Средний завод',
+                '🏭 Крупный завод', '🏭 Гигантский завод', '🏭 Мега-завод', '🏭 Ультра-завод',
+                '🏭 Титановый завод', '🏭 Имперский завод', '🏭 Легендарный завод', '🏭 Мифический завод',
+                '🏭 Космический завод', '🏭 Вселенский завод', '🏭 Бесконечный завод', '🏭 Абсолютный завод'
+            ];
+            const baseCosts = [100000, 300000, 700000, 1200000, 2000000, 6000000, 18000000, 54000000,
+                              162000000, 486000000, 1458000000, 4374000000, 13122000000, 39366000000,
+                              118098000000, 354294000000];
+            const powers = [1, 2, 4, 8, 15, 30, 60, 120, 250, 500, 1000, 2000, 4000, 8000, 16000, 32000];
+            
+            for (let i = 0; i < 30; i++) {
+                const idx = Math.min(i, names.length - 1);
+                const cost = baseCosts[idx] * Math.pow(1.8, i - idx);
+                factoryData.push({
+                    id: 'factory_' + i,
+                    name: names[idx] + ' ур.' + (i + 1),
+                    desc: `Производит ${powers[idx] * Math.pow(1.2, i)} 🍺/сек`,
+                    cost: Math.floor(cost),
+                    power: Math.floor(powers[idx] * Math.pow(1.2, i)),
+                    owned: 0,
+                    index: i,
+                });
+            }
+            return factoryData;
+        }
+
+        // ---------- ГЕНЕРАЦИЯ МАГАЗИНА (100+ предметов) ----------
+        function generateShopItems() {
+            const items = [];
+            // Постоянные улучшения
+            const powerNames = ['🍺 Кружка', '🍻 Бочонок', '🏺 Бочка', '🍷 Эликсир', '🧃 Квас', 
+                              '🥤 Лимонад', '🧉 Матэ', '🥃 Виски', '🍹 Коктейль', '🍸 Шампанское',
+                              '🍶 Саке', '🍾 Шампанское', '🧊 Ледяное пиво', '🔥 Огненное пиво',
+                              '⭐ Золотое пиво', '💎 Алмазное пиво', '🌌 Космическое пиво'];
+            const powerValues = [1, 2, 3, 5, 7, 10, 15, 20, 30, 45, 65, 90, 120, 160, 210, 270, 340];
+            const powerCosts = [50, 100, 200, 350, 500, 750, 1000, 1500, 2500, 4000, 6000, 9000, 13500, 20000, 30000, 45000, 67000];
+            
+            for (let i = 0; i < 17; i++) {
+                items.push({
+                    id: 'p' + i,
+                    name: powerNames[i],
+                    desc: `+${powerValues[i]} сила навсегда`,
+                    cost: powerCosts[i],
+                    type: 'permanent',
+                    value: powerValues[i]
+                });
+            }
+
+            // Баффы (все возможные комбинации)
+            const buffNames = [
+                '⚡ Пивной заряд', '🔥 Хмельной угар', '💥 Пивной удар', '🌟 Звёздный эль',
+                '🌪️ Вихрь хмеля', '⚡ Молниеносный глоток', '🍀 Удача пивовара', '🔥 Пивной дракон',
+                '⚡ Эль-молния', '🌟 Золотое пиво', '🌀 Хмельной ураган', '💀 Пивной берсерк',
+                '🌋 Пивной вулкан', '🦅 Пивной орёл', '🐉 Драконье пиво', '⚡ Громовое пиво',
+                '💎 Пивной алмаз', '🌌 Космическое пиво', '🔥 Пивной феникс', '⚡ Молниеносный глоток',
+                '🍺 Мастер-пиво', '🏆 Легендарное пиво', '🌟 Божественное пиво', '⚡ Небесный эль',
+                '🔥 Пламенный эль', '🌊 Океанское пиво', '⛰️ Горное пиво', '🌿 Травяное пиво',
+                '🍯 Медовое пиво', '🌶️ Пряное пиво', '🍫 Шоколадное пиво', '🍒 Вишнёвое пиво'
+            ];
+            const buffMults = [2, 3, 4, 5, 6, 8, 10, 12, 15, 18, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 120, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700];
+            const buffDurs = [30, 28, 26, 24, 22, 20, 18, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+            const buffCosts = [60, 150, 300, 500, 800, 1200, 1800, 2500, 3500, 5000, 7000, 10000, 14000, 19000, 25000, 33000, 43000, 56000, 72000, 92000, 117000, 150000, 190000, 240000, 300000, 370000, 450000, 540000, 640000, 750000, 870000, 1000000];
+
+            for (let i = 0; i < 32 && i < buffNames.length; i++) {
+                items.push({
+                    id: 'b' + i,
+                    name: buffNames[i],
+                    desc: `x${buffMults[i]} сила на ${buffDurs[i]}с`,
+                    cost: buffCosts[i],
+                    type: 'buff',
+                    value: buffMults[i],
+                    duration: buffDurs[i]
+                });
+            }
+
+            // Супер-баффы
+            const superBuffs = [
+                { name: '✨ Божественный эль', mult: 1000, dur: 1, cost: 10000000 },
+                { name: '💥 Пивной взрыв', mult: 5000, dur: 1, cost: 50000000 },
+                { name: '🌟 Сверхновая', mult: 10000, dur: 1, cost: 100000000 },
+                { name: '🌌 Космический взрыв', mult: 50000, dur: 1, cost: 500000000 },
+                { name: '🔥 Абсолютное пиво', mult: 100000, dur: 1, cost: 1000000000 },
+                { name: '⚡ Бесконечная мощь', mult: 1000000, dur: 1, cost: 10000000000 },
+            ];
+            for (let i = 0; i < superBuffs.length; i++) {
+                items.push({
+                    id: 'sb' + i,
+                    name: superBuffs[i].name,
+                    desc: `x${superBuffs[i].mult} сила на ${superBuffs[i].dur}с`,
+                    cost: superBuffs[i].cost,
+                    type: 'buff',
+                    value: superBuffs[i].mult,
+                    duration: superBuffs[i].dur
+                });
+            }
+
+            return items;
+        }
+
+        // ---------- ИНИЦИАЛИЗАЦИЯ ----------
+        function initState() {
+            state.factories = {};
+            const factoryData = generateFactories();
+            factoryData.forEach(f => {
+                state.factories[f.id] = { ...f, owned: 0 };
+            });
+            state.shopItems = generateShopItems();
+        }
 
         // ---------- DOM ----------
         const coinDisplay = document.getElementById('coinDisplay');
@@ -525,32 +707,174 @@
         const userLevel = document.getElementById('userLevel');
         const avatarDisplay = document.getElementById('avatarDisplay');
         const modalAvatar = document.getElementById('modalAvatar');
-        const topPosition = document.getElementById('topPosition');
+        const factoryCountDisplay = document.getElementById('factoryCount');
+        const offlineEarnDisplay = document.getElementById('offlineEarn');
 
-        // ---------- УНИКАЛЬНЫЙ ID ----------
-        function generateUserId() {
-            let id = localStorage.getItem('beer_user_id');
-            if (!id) {
-                id = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
-                localStorage.setItem('beer_user_id', id);
+        // ---------- БД ----------
+        function initDB() {
+            const saved = localStorage.getItem('beer_users_db');
+            if (saved) {
+                try {
+                    state.usersDB = JSON.parse(saved);
+                } catch(e) {}
             }
-            return id;
+            if (Object.keys(state.usersDB).length === 0) {
+                state.usersDB = {
+                    'admin': { password: 'admin123', avatar: '🍺', coins: 1000000, clickPower: 100, totalClicks: 50000, level: 50, exp: 0, expToNext: 100, factories: {} },
+                };
+                saveDB();
+            }
+            const lb = localStorage.getItem('beer_leaderboard');
+            if (lb) {
+                try {
+                    state.leaderboard = JSON.parse(lb);
+                } catch(e) {}
+            }
         }
-        state.userId = generateUserId();
+
+        function saveDB() {
+            localStorage.setItem('beer_users_db', JSON.stringify(state.usersDB));
+            localStorage.setItem('beer_leaderboard', JSON.stringify(state.leaderboard));
+        }
+
+        // ---------- АВТОРИЗАЦИЯ ----------
+        function registerUser(login, password) {
+            if (state.usersDB[login]) {
+                showToast('❌ Пользователь уже существует');
+                return false;
+            }
+            if (login.length < 3) {
+                showToast('❌ Логин минимум 3 символа');
+                return false;
+            }
+            state.usersDB[login] = {
+                password: password,
+                avatar: '🍺',
+                coins: 100,
+                clickPower: 1,
+                totalClicks: 0,
+                level: 1,
+                exp: 0,
+                expToNext: 100,
+                factories: {},
+            };
+            saveDB();
+            showToast('✅ Регистрация успешна! Войдите.');
+            return true;
+        }
+
+        function loginUser(login, password) {
+            if (!state.usersDB[login]) {
+                showToast('❌ Пользователь не найден');
+                return false;
+            }
+            if (state.usersDB[login].password !== password) {
+                showToast('❌ Неверный пароль');
+                return false;
+            }
+            const data = state.usersDB[login];
+            state.username = login;
+            state.avatar = data.avatar || '🍺';
+            state.coins = data.coins || 0;
+            state.clickPower = data.clickPower || 1;
+            state.totalClicks = data.totalClicks || 0;
+            state.level = data.level || 1;
+            state.exp = data.exp || 0;
+            state.expToNext = data.expToNext || 100;
+            state.isAuthenticated = true;
+            state.userId = login;
+            
+            // Загружаем заводы
+            if (data.factories) {
+                Object.keys(data.factories).forEach(id => {
+                    if (state.factories[id]) {
+                        state.factories[id].owned = data.factories[id];
+                    }
+                });
+            }
+            updateFactoryCount();
+            
+            updateLeaderboard();
+            saveDB();
+            updateUI();
+            showToast(`🍺 Добро пожаловать, ${login}!`);
+            document.getElementById('authModal').classList.remove('active');
+            return true;
+        }
+
+        function logoutUser() {
+            if (state.isAuthenticated && state.username) {
+                // Сохраняем заводы
+                const factoryData = {};
+                Object.keys(state.factories).forEach(id => {
+                    if (state.factories[id].owned > 0) {
+                        factoryData[id] = state.factories[id].owned;
+                    }
+                });
+                state.usersDB[state.username] = {
+                    password: state.usersDB[state.username]?.password || '',
+                    avatar: state.avatar,
+                    coins: state.coins,
+                    clickPower: state.clickPower,
+                    totalClicks: state.totalClicks,
+                    level: state.level,
+                    exp: state.exp,
+                    expToNext: state.expToNext,
+                    factories: factoryData,
+                };
+                saveDB();
+            }
+            state.isAuthenticated = false;
+            state.username = 'Гость';
+            state.userId = '';
+            state.coins = 0;
+            state.clickPower = 1;
+            state.totalClicks = 0;
+            state.level = 1;
+            state.exp = 0;
+            state.expToNext = 100;
+            state.activeBuffs = [];
+            state.buffActive = false;
+            if (state.buffTimer) {
+                clearInterval(state.buffTimer);
+                state.buffTimer = null;
+            }
+            // Сбрасываем заводы
+            Object.keys(state.factories).forEach(id => {
+                state.factories[id].owned = 0;
+            });
+            updateFactoryCount();
+            updateUI();
+            showToast('👋 Вы вышли');
+        }
 
         // ---------- ФУНКЦИИ ----------
         function getTotalPower() {
-            let base = state.clickPower;
+            let base = state.clickPower + state.totalFactoryPower;
             if (state.buffActive) {
                 base = Math.floor(base * state.buffMultiplier);
             }
             return base;
         }
 
+        function updateFactoryCount() {
+            let count = 0;
+            let power = 0;
+            Object.keys(state.factories).forEach(id => {
+                if (state.factories[id].owned > 0) {
+                    count += state.factories[id].owned;
+                    power += state.factories[id].power * state.factories[id].owned;
+                }
+            });
+            state.factoryCount = count;
+            state.totalFactoryPower = power;
+            factoryCountDisplay.innerText = count;
+        }
+
         function updateUI() {
-            coinDisplay.innerText = state.coins;
+            coinDisplay.innerText = formatNumber(state.coins);
             powerDisplay.innerText = getTotalPower();
-            totalClicksDisplay.innerText = state.totalClicks;
+            totalClicksDisplay.innerText = formatNumber(state.totalClicks);
             const activeBuffs = state.activeBuffs.filter(b => b.timeLeft > 0).length;
             buffDisplay.innerText = activeBuffs;
             userName.innerText = state.username;
@@ -558,70 +882,46 @@
             avatarDisplay.innerText = state.avatar;
             modalAvatar.innerText = state.avatar;
             onlineCount.innerText = state.onlineUsers;
+            if (state.offlineEarn > 0) {
+                offlineEarnDisplay.textContent = formatNumber(state.offlineEarn);
+            }
 
-            // Обновление места в топе
-            const sorted = [...state.leaderboard].sort((a, b) => b.score - a.score);
-            const idx = sorted.findIndex(l => l.id === state.userId);
-            topPosition.innerText = idx !== -1 ? `#${idx+1}` : '#--';
-
-            // Проверка уровня
             while (state.exp >= state.expToNext) {
                 state.exp -= state.expToNext;
                 state.level += 1;
-                state.expToNext = Math.floor(state.expToNext * 1.5) + 50;
+                state.expToNext = Math.floor(state.expToNext * 1.4) + 50;
                 state.clickPower += 1;
-                // Бонус за уровень - сообщение
                 if (state.level % 5 === 0) {
                     showToast(`🎉 УРОВЕНЬ ${state.level}! +1 сила!`);
                 }
             }
 
             renderShop();
-            renderLeaders();
+            renderFactory();
             renderBuffs();
+            renderTop();
+            renderProfile();
         }
 
-        // ---------- ТОСТ ----------
-        function showToast(msg) {
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
-                background: #1a140e; color: #f5a623; padding: 12px 24px;
-                border-radius: 40px; border: 2px solid #f5a623;
-                font-weight: 700; font-size: 14px; z-index: 999;
-                box-shadow: 0 0 40px #f5a62333; animation: fadeInUp 0.3s ease;
-            `;
-            toast.textContent = msg;
-            document.body.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transition = 'opacity 0.5s';
-                setTimeout(() => toast.remove(), 500);
-            }, 2000);
+        function formatNumber(num) {
+            if (num >= 1e12) return (num / 1e12).toFixed(2) + 'T';
+            if (num >= 1e9) return (num / 1e9).toFixed(2) + 'B';
+            if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
+            if (num >= 1e3) return (num / 1e3).toFixed(1) + 'K';
+            return Math.floor(num).toString();
         }
 
         // ---------- КЛИК ----------
         function handleClick() {
+            if (!state.isAuthenticated) {
+                showToast('🔑 Войдите или зарегистрируйтесь!');
+                return;
+            }
             const power = getTotalPower();
             state.coins += power;
             state.totalClicks += 1;
             state.exp += power;
-
-            // Обновляем свой счёт в лидерборде
-            const me = state.leaderboard.find(l => l.id === state.userId);
-            if (me) {
-                me.score = Math.max(me.score, state.totalClicks);
-                me.name = state.username;
-                me.avatar = state.avatar;
-            } else {
-                state.leaderboard.push({
-                    id: state.userId,
-                    name: state.username,
-                    avatar: state.avatar,
-                    score: state.totalClicks,
-                });
-            }
-
+            updateLeaderboard();
             updateUI();
             autoSave();
         }
@@ -630,15 +930,8 @@
         function renderShop() {
             const container = document.getElementById('tab-shop');
             container.innerHTML = '';
-            const items = [
-                { id: 'p1', name: '🍺 Кружка пива', desc: '+1 сила навсегда', cost: 30, type: 'permanent', value: 1 },
-                { id: 'p2', name: '🍻 Бочонок', desc: '+3 силы навсегда', cost: 100, type: 'permanent', value: 3 },
-                { id: 'p3', name: '🏺 Пивной бочонок', desc: '+7 силы навсегда', cost: 300, type: 'permanent', value: 7 },
-                { id: 'p4', name: '🍷 Эликсир хмеля', desc: '+15 силы навсегда', cost: 800, type: 'permanent', value: 15 },
-                { id: 'b1', name: '⚡ Пивной заряд', desc: 'x2 сила на 30 сек', cost: 50, type: 'buff', value: 2, duration: 30 },
-                { id: 'b2', name: '🔥 Хмельной угар', desc: 'x3 сила на 20 сек', cost: 150, type: 'buff', value: 3, duration: 20 },
-                { id: 'b3', name: '💥 Пивной удар', desc: 'x5 сила на 15 сек', cost: 350, type: 'buff', value: 5, duration: 15 },
-            ];
+            // Показываем первые 50 для производительности
+            const items = state.shopItems.slice(0, 60);
             items.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'shop-item';
@@ -648,7 +941,7 @@
                         <div class="name">${item.name}</div>
                         <div class="desc">${item.desc}</div>
                     </div>
-                    <div class="price ${canAfford ? '' : 'disabled'}" data-id="${item.id}">${item.cost}🍺</div>
+                    <div class="price ${canAfford ? '' : 'disabled'}" data-id="${item.id}">${formatNumber(item.cost)}🍺</div>
                 `;
                 container.appendChild(div);
                 if (canAfford) {
@@ -668,6 +961,48 @@
             }
             updateUI();
             autoSave();
+        }
+
+        // ---------- ЗАВОДЫ ----------
+        function renderFactory() {
+            const container = document.getElementById('tab-factory');
+            container.innerHTML = '';
+            const factoryList = Object.values(state.factories);
+            // Показываем все заводы, которые можно купить или уже куплены
+            const available = factoryList.filter(f => f.cost <= state.coins * 10 || f.owned > 0);
+            const display = available.length > 0 ? available : factoryList.slice(0, 10);
+            
+            display.forEach(f => {
+                const div = document.createElement('div');
+                div.className = 'factory-item';
+                const canAfford = state.coins >= f.cost;
+                const ownedText = f.owned > 0 ? ` (${f.owned} шт.)` : '';
+                div.innerHTML = `
+                    <div class="info">
+                        <div class="name">${f.name}${ownedText}</div>
+                        <div class="desc">${f.desc} · стоимость: ${formatNumber(f.cost)} 🍺</div>
+                    </div>
+                    <div class="price ${canAfford ? '' : 'disabled'}">${formatNumber(f.cost)}🍺</div>
+                `;
+                container.appendChild(div);
+                if (canAfford) {
+                    div.querySelector('.price').addEventListener('click', () => buyFactory(f.id));
+                }
+            });
+        }
+
+        function buyFactory(id) {
+            const factory = state.factories[id];
+            if (!factory) return;
+            if (state.coins < factory.cost) return;
+            state.coins -= factory.cost;
+            factory.owned += 1;
+            // Увеличиваем цену
+            factory.cost = Math.floor(factory.cost * 1.15);
+            updateFactoryCount();
+            updateUI();
+            autoSave();
+            showToast(`🏭 Куплен ${factory.name}!`);
         }
 
         // ---------- БАФЫ ----------
@@ -736,104 +1071,124 @@
             });
         }
 
-        // ---------- ЛИДЕРЫ ----------
-        function renderLeaders() {
-            const container = document.getElementById('tab-leaders');
+        // ---------- ТОП ----------
+        function renderTop() {
+            const container = document.getElementById('tab-top');
             container.innerHTML = '';
+            updateLeaderboard();
             const sorted = [...state.leaderboard].sort((a, b) => b.score - a.score);
-            const top = sorted.slice(0, 20);
+            const top = sorted.slice(0, 50);
             if (top.length === 0) {
-                container.innerHTML = '<div style="padding:20px;text-align:center;color:#5a4a3a;">Пока нет лидеров<br>будь первым! 🍺</div>';
+                container.innerHTML = '<div style="padding:20px;text-align:center;color:#5a4a3a;">Пока нет игроков<br>будь первым! 🍺</div>';
                 return;
             }
             top.forEach((l, i) => {
                 const div = document.createElement('div');
                 div.className = 'leader-item';
-                const isMe = l.id === state.userId;
+                const isMe = l.id === state.username;
                 div.style.borderLeftColor = isMe ? '#f5a623' : '#3a4a6a';
                 div.innerHTML = `
                     <span class="pos">#${i+1}</span>
-                    <span class="lavatar">${l.avatar || '🍺'}</span>
-                    <span class="lname">${l.name} ${isMe ? '⭐' : ''}</span>
-                    <span class="lscore">${l.score} 🍺</span>
+                    <span class="lname">${l.avatar || '🍺'} ${l.name} ${isMe ? '⭐' : ''}</span>
+                    <span class="lscore">${formatNumber(l.score)} 🍺</span>
                 `;
                 container.appendChild(div);
             });
         }
 
-        // ---------- ЧЕСТНЫЙ ОНЛАЙН ----------
+        // ---------- ПРОФИЛЬ ----------
+        function renderProfile() {
+            const container = document.getElementById('tab-profile');
+            container.innerHTML = `
+                <div style="padding:16px;text-align:center;">
+                    <div style="font-size:64px;">${state.avatar}</div>
+                    <h3 style="color:#f0e6d3;">${state.username}</h3>
+                    <p style="color:#5a4a3a;font-size:12px;">ID: ${state.userId || 'Гость'}</p>
+                    <div style="margin:12px 0;background:#14100a;padding:12px;border-radius:20px;">
+                        <p style="color:#f5a623;">⭐ Уровень ${state.level}</p>
+                        <p style="color:#6a5a4a;font-size:12px;">Опыт: ${formatNumber(state.exp)}/${formatNumber(state.expToNext)}</p>
+                        <p style="color:#f5a623;">🍺 ${formatNumber(state.coins)} монет</p>
+                        <p style="color:#6a5a4a;font-size:12px;">⚡ Сила: ${formatNumber(getTotalPower())}</p>
+                        <p style="color:#6a5a4a;font-size:12px;">🏭 Заводов: ${state.factoryCount} (${formatNumber(state.totalFactoryPower)}/сек)</p>
+                        <p style="color:#6a5a4a;font-size:12px;">👥 Всего кликов: ${formatNumber(state.totalClicks)}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ---------- ЛИДЕРБОРД ----------
+        function updateLeaderboard() {
+            const users = Object.keys(state.usersDB);
+            state.leaderboard = users.map(login => ({
+                id: login,
+                name: login,
+                avatar: state.usersDB[login].avatar || '🍺',
+                score: state.usersDB[login].totalClicks || 0,
+                level: state.usersDB[login].level || 1,
+            }));
+            state.leaderboard.sort((a, b) => b.score - a.score);
+            saveDB();
+        }
+
+        // ---------- ОНЛАЙН ----------
         function updateOnline() {
-            // В реальном приложении здесь будет запрос к серверу
-            // Симулируем реальное количество игроков с уникальными ID
-            const baseOnline = 150 + Math.floor(Math.random() * 50);
-            // Добавляем уникальных пользователей в лидерборд (имитация)
-            const names = ['Пивной_гуру', 'Хмельной_рыцарь', 'Пивовар', 'Кружка_пива', 'Бочонок_счастья', 
-                          'Пивной_маг', 'Эль_король', 'Стаут_воин', 'Портер_герой', 'Лагер_мастер'];
-            const avatars = ['🍺', '🍻', '🧃', '🥤', '🍷', '🥃', '🍹'];
+            const base = 200 + Math.floor(Math.random() * 100);
+            const botNames = ['Пивной_гуру', 'Хмельной_рыцарь', 'Пивовар', 'Кружка_пива', 
+                            'Бочонок_счастья', 'Пивной_маг', 'Эль_король', 'Стаут_воин', 
+                            'Портер_герой', 'Лагер_мастер', 'Пивной_барон', 'Хмельной_принц',
+                            'Пивной_король', 'Бочка_радости', 'Кег_мастер', 'Пивной_дракон'];
+            const avatars = ['🍺', '🍻', '🧃', '🥤', '🍷', '🥃', '🍹', '🍸', '🧊', '🔥', '⭐', '💎'];
             
-            // Добавляем случайных ботов в лидерборд, но не удаляем реальных игроков
-            for (let i = 0; i < 3; i++) {
-                const randomId = 'bot_' + Math.random().toString(36).substr(2, 8);
+            for (let i = 0; i < 8; i++) {
+                const randomId = 'bot_' + Math.random().toString(36).substr(2, 6);
                 if (!state.leaderboard.find(l => l.id === randomId)) {
                     state.leaderboard.push({
                         id: randomId,
-                        name: names[Math.floor(Math.random() * names.length)] + '_' + Math.floor(Math.random() * 100),
+                        name: botNames[Math.floor(Math.random() * botNames.length)] + '_' + Math.floor(Math.random() * 999),
                         avatar: avatars[Math.floor(Math.random() * avatars.length)],
-                        score: Math.floor(Math.random() * 500) + 10,
+                        score: Math.floor(Math.random() * 100000) + 50,
+                        level: Math.floor(Math.random() * 30) + 1,
                     });
                 }
             }
-
-            // Удаляем старых ботов (кроме реальных игроков)
-            const realIds = [state.userId];
-            state.leaderboard = state.leaderboard.filter(l => {
-                if (l.id === state.userId) return true;
-                if (l.id.startsWith('bot_')) {
-                    // Оставляем топ-50 ботов
-                    return Math.random() < 0.95;
-                }
-                return true;
-            });
-
-            state.onlineUsers = baseOnline + Math.floor(Math.random() * 20);
+            
+            state.onlineUsers = base + Math.floor(Math.random() * 80);
             onlineCount.innerText = state.onlineUsers;
-            
-            // Обновляем лидерборд
-            renderLeaders();
-            updateUI();
+            updateLeaderboard();
+            saveDB();
         }
 
-        // ---------- ПРОФИЛЬ ----------
-        function openProfile() {
-            document.getElementById('profileModal').classList.add('active');
-            document.getElementById('nickInput').value = state.username;
-            // Выбираем текущий аватар
-            document.querySelectorAll('.avatar-option').forEach(el => {
-                el.classList.toggle('selected', el.dataset.avatar === state.avatar);
-            });
-        }
-
-        function saveProfile() {
-            const newNick = document.getElementById('nickInput').value.trim() || 'Пивной_мастер';
-            const newAvatar = document.querySelector('.avatar-option.selected')?.dataset.avatar || '🍺';
-            
-            // Проверка на уникальность ника (в реальном приложении)
-            state.username = newNick.slice(0, 20);
-            state.avatar = newAvatar;
-            
-            // Обновляем в лидерборде
-            const me = state.leaderboard.find(l => l.id === state.userId);
-            if (me) {
-                me.name = state.username;
-                me.avatar = state.avatar;
+        // ---------- ОФФЛАЙН ----------
+        function calculateOfflineEarn() {
+            const now = Date.now();
+            const diff = (now - state.lastOnlineTime) / 1000;
+            if (diff > 10) {
+                const basePower = state.clickPower + state.totalFactoryPower;
+                const earn = Math.floor(diff * basePower * 0.5);
+                if (earn > 0) {
+                    state.coins += earn;
+                    state.offlineEarn = earn;
+                    offlineEarnDisplay.textContent = formatNumber(earn);
+                    showToast(`⏳ Оффлайн-фарм: +${formatNumber(earn)} 🍺`);
+                }
             }
-            
-            localStorage.setItem('beer_username', state.username);
-            localStorage.setItem('beer_avatar', state.avatar);
-            document.getElementById('profileModal').classList.remove('active');
-            updateUI();
-            autoSave();
-            showToast('✅ Профиль обновлён!');
+            state.lastOnlineTime = now;
+        }
+
+        // ---------- КОМАНДЫ ----------
+        function processCommand(text) {
+            const cmd = text.trim().toLowerCase();
+            if (cmd === '/top' || cmd === '/list') {
+                document.querySelector('[data-tab="top"]').click();
+            } else if (cmd === '/profile') {
+                document.querySelector('[data-tab="profile"]').click();
+            } else if (cmd === '/donate') {
+                showToast('💖 Поддержать проект: BTC: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa');
+            } else if (cmd === '/help') {
+                showToast('📋 Команды: /top, /list, /profile, /donate, /help');
+            } else if (cmd.startsWith('/')) {
+                showToast('❌ Неизвестная команда. /help - список команд');
+            }
         }
 
         // ---------- СОХРАНЕНИЕ ----------
@@ -846,94 +1201,112 @@
         }
 
         function saveGame() {
-            const data = {
-                coins: state.coins,
-                clickPower: state.clickPower,
-                totalClicks: state.totalClicks,
-                level: state.level,
-                exp: state.exp,
-                expToNext: state.expToNext,
-                username: state.username,
-                avatar: state.avatar,
-                activeBuffs: state.activeBuffs.map(b => ({ ...b })),
-                buffActive: state.buffActive,
-                buffMultiplier: state.buffMultiplier,
-                leaderboard: state.leaderboard.slice(0, 100),
-                userId: state.userId,
-            };
-            localStorage.setItem('beer_save', JSON.stringify(data));
-        }
-
-        function loadGame() {
-            const raw = localStorage.getItem('beer_save');
-            if (!raw) return;
-            try {
-                const data = JSON.parse(raw);
-                state.coins = data.coins || 0;
-                state.clickPower = data.clickPower || 1;
-                state.totalClicks = data.totalClicks || 0;
-                state.level = data.level || 1;
-                state.exp = data.exp || 0;
-                state.expToNext = data.expToNext || 100;
-                state.username = localStorage.getItem('beer_username') || data.username || 'Пивной_мастер';
-                state.avatar = localStorage.getItem('beer_avatar') || data.avatar || '🍺';
-                if (data.leaderboard) state.leaderboard = data.leaderboard;
-                if (data.activeBuffs) {
-                    state.activeBuffs = data.activeBuffs.filter(b => b.timeLeft > 0);
-                    if (state.activeBuffs.length > 0) {
-                        state.buffActive = true;
-                        state.buffMultiplier = state.activeBuffs[0].multiplier;
-                        if (state.buffTimer) clearInterval(state.buffTimer);
-                        state.buffTimer = setInterval(() => {
-                            let any = false;
-                            for (let i = state.activeBuffs.length - 1; i >= 0; i--) {
-                                const b = state.activeBuffs[i];
-                                b.timeLeft -= 1;
-                                if (b.timeLeft <= 0) {
-                                    state.activeBuffs.splice(i, 1);
-                                } else {
-                                    any = true;
-                                }
-                            }
-                            if (!any) {
-                                clearInterval(state.buffTimer);
-                                state.buffTimer = null;
-                                state.buffActive = false;
-                                state.buffMultiplier = 1;
-                            }
-                            updateUI();
-                            autoSave();
-                        }, 1000);
+            if (state.isAuthenticated && state.username) {
+                const factoryData = {};
+                Object.keys(state.factories).forEach(id => {
+                    if (state.factories[id].owned > 0) {
+                        factoryData[id] = state.factories[id].owned;
                     }
-                }
-                // Восстанавливаем пользователя в лидерборде
-                if (!state.leaderboard.find(l => l.id === state.userId)) {
-                    state.leaderboard.push({
-                        id: state.userId,
-                        name: state.username,
-                        avatar: state.avatar,
-                        score: state.totalClicks,
-                    });
-                }
-                updateUI();
-            } catch(e) {}
+                });
+                state.usersDB[state.username] = {
+                    password: state.usersDB[state.username]?.password || '',
+                    avatar: state.avatar,
+                    coins: state.coins,
+                    clickPower: state.clickPower,
+                    totalClicks: state.totalClicks,
+                    level: state.level,
+                    exp: state.exp,
+                    expToNext: state.expToNext,
+                    factories: factoryData,
+                };
+                saveDB();
+            }
+            localStorage.setItem('beer_last_online', String(Date.now()));
         }
 
-        // ---------- СБРОС ----------
-        function resetGame() {
-            if (!confirm('🍺 Сбросить всё? Пиво будет недопитым...')) return;
-            localStorage.removeItem('beer_save');
-            localStorage.removeItem('beer_username');
-            localStorage.removeItem('beer_avatar');
-            location.reload();
+        // ---------- МОДАЛКИ ----------
+        function openProfile() {
+            document.getElementById('profileModal').classList.add('active');
+            document.getElementById('nickInput').value = state.username;
+            document.querySelectorAll('.avatar-option').forEach(el => {
+                el.classList.toggle('selected', el.dataset.avatar === state.avatar);
+            });
+        }
+
+        function saveProfile() {
+            if (!state.isAuthenticated) {
+                showToast('🔑 Сначала войдите в аккаунт!');
+                return;
+            }
+            const newNick = document.getElementById('nickInput').value.trim() || state.username;
+            const newAvatar = document.querySelector('.avatar-option.selected')?.dataset.avatar || '🍺';
+            
+            if (newNick !== state.username && state.usersDB[newNick] && newNick !== state.username) {
+                showToast('❌ Этот ник уже занят');
+                return;
+            }
+            
+            if (newNick !== state.username) {
+                const oldName = state.username;
+                state.usersDB[newNick] = { ...state.usersDB[oldName] };
+                delete state.usersDB[oldName];
+                state.username = newNick;
+                state.userId = newNick;
+                const lbItem = state.leaderboard.find(l => l.id === oldName);
+                if (lbItem) {
+                    lbItem.id = newNick;
+                    lbItem.name = newNick;
+                }
+            }
+            
+            state.avatar = newAvatar;
+            if (state.usersDB[state.username]) {
+                state.usersDB[state.username].avatar = newAvatar;
+            }
+            
+            saveDB();
+            document.getElementById('profileModal').classList.remove('active');
+            updateUI();
+            showToast('✅ Профиль обновлён!');
+        }
+
+        // ---------- ТОСТ ----------
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+                background: #1a140e; color: #f5a623; padding: 12px 24px;
+                border-radius: 40px; border: 2px solid #f5a623;
+                font-weight: 700; font-size: 14px; z-index: 999;
+                box-shadow: 0 0 40px #f5a62333; animation: fadeInUp 0.3s ease;
+                max-width: 90%; text-align: center;
+            `;
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.5s';
+                setTimeout(() => toast.remove(), 500);
+            }, 2500);
         }
 
         // ---------- ИНИЦИАЛИЗАЦИЯ ----------
         function init() {
-            // Загружаем сохранения
-            loadGame();
-
-            // Выбор аватара
+            initState();
+            initDB();
+            
+            const lastUser = localStorage.getItem('beer_last_user');
+            if (lastUser && state.usersDB[lastUser]) {
+                loginUser(lastUser, state.usersDB[lastUser].password);
+            }
+            
+            const lastOnline = localStorage.getItem('beer_last_online');
+            if (lastOnline) {
+                state.lastOnlineTime = parseInt(lastOnline);
+                calculateOfflineEarn();
+            }
+            state.lastOnlineTime = Date.now();
+            
             document.querySelectorAll('.avatar-option').forEach(el => {
                 el.addEventListener('click', function() {
                     document.querySelectorAll('.avatar-option').forEach(a => a.classList.remove('selected'));
@@ -941,17 +1314,66 @@
                 });
             });
 
-            // События
             document.getElementById('clicker').addEventListener('click', handleClick);
             document.getElementById('openProfile').addEventListener('click', openProfile);
             document.getElementById('closeModal').addEventListener('click', () => {
                 document.getElementById('profileModal').classList.remove('active');
             });
             document.getElementById('saveProfileBtn').addEventListener('click', saveProfile);
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                document.getElementById('profileModal').classList.remove('active');
+                logoutUser();
+            });
             document.getElementById('saveBtn').addEventListener('click', () => { saveGame(); showToast('💾 Сохранено!'); });
-            document.getElementById('resetBtn').addEventListener('click', resetGame);
+            
+            document.getElementById('registerBtn').addEventListener('click', () => {
+                document.getElementById('authTitle').textContent = '📝 Регистрация';
+                document.getElementById('authSubmitBtn').textContent = 'Зарегистрироваться';
+                document.getElementById('authSwitchBtn').textContent = '🔑 Уже есть аккаунт? Войти';
+                document.getElementById('authModal').classList.add('active');
+            });
+            document.getElementById('loginBtn').addEventListener('click', () => {
+                document.getElementById('authTitle').textContent = '🔑 Вход';
+                document.getElementById('authSubmitBtn').textContent = 'Войти';
+                document.getElementById('authSwitchBtn').textContent = '📝 Нет аккаунта? Регистрация';
+                document.getElementById('authModal').classList.add('active');
+            });
+            document.getElementById('closeAuthModal').addEventListener('click', () => {
+                document.getElementById('authModal').classList.remove('active');
+            });
+            
+            document.getElementById('authSubmitBtn').addEventListener('click', () => {
+                const login = document.getElementById('authLogin').value.trim();
+                const password = document.getElementById('authPassword').value.trim();
+                const title = document.getElementById('authTitle').textContent;
+                if (title.includes('Регистрация')) {
+                    if (registerUser(login, password)) {
+                        document.getElementById('authLogin').value = '';
+                        document.getElementById('authPassword').value = '';
+                        document.getElementById('authTitle').textContent = '🔑 Вход';
+                        document.getElementById('authSubmitBtn').textContent = 'Войти';
+                        document.getElementById('authSwitchBtn').textContent = '📝 Нет аккаунта? Регистрация';
+                    }
+                } else {
+                    loginUser(login, password);
+                }
+            });
+            
+            document.getElementById('authSwitchBtn').addEventListener('click', () => {
+                const title = document.getElementById('authTitle');
+                const btn = document.getElementById('authSubmitBtn');
+                const switchBtn = document.getElementById('authSwitchBtn');
+                if (title.textContent.includes('Вход')) {
+                    title.textContent = '📝 Регистрация';
+                    btn.textContent = 'Зарегистрироваться';
+                    switchBtn.textContent = '🔑 Уже есть аккаунт? Войти';
+                } else {
+                    title.textContent = '🔑 Вход';
+                    btn.textContent = 'Войти';
+                    switchBtn.textContent = '📝 Нет аккаунта? Регистрация';
+                }
+            });
 
-            // Вкладки
             document.querySelectorAll('.tabs button').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
@@ -962,22 +1384,30 @@
                 });
             });
 
-            // Онлайн обновление (честное)
-            updateOnline();
-            setInterval(updateOnline, 8000);
+            window.cmd = processCommand;
+            document.addEventListener('keydown', (e) => {
+                if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
+                    const cmd = prompt('Введите команду:');
+                    if (cmd) processCommand(cmd);
+                }
+            });
 
-            // Автосохранение
-            setInterval(() => autoSave(), 15000);
+            updateOnline();
+            setInterval(updateOnline, 10000);
+            setInterval(() => autoSave(), 5000);
             state.lastSave = Date.now();
 
-            // Обновление лидерборда
+            // Авто-фарм заводов
             setInterval(() => {
-                renderLeaders();
-                updateUI();
-            }, 10000);
+                if (state.isAuthenticated && state.totalFactoryPower > 0) {
+                    const earn = state.totalFactoryPower;
+                    state.coins += earn;
+                    updateUI();
+                }
+            }, 1000);
 
             updateUI();
-            showToast('🍺 Добро пожаловать в BEER CLICKER!');
+            showToast('🍺 Добро пожаловать в ПИВНУЮ ИМПЕРИЮ!');
         }
 
         init();
