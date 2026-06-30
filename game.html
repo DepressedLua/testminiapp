@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎮 Кликер</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .game-container {
+            max-width: 400px;
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border-radius: 24px;
+            padding: 30px 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        
+        .game-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .game-subtitle {
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 25px;
+        }
+        
+        .score-display {
+            font-size: 64px;
+            font-weight: 800;
+            color: #fff;
+            margin: 10px 0;
+            text-shadow: 0 0 40px rgba(255,107,107,0.3);
+        }
+        
+        .score-label {
+            font-size: 14px;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .click-btn {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: #fff;
+            font-size: 80px;
+            cursor: pointer;
+            transition: all 0.15s;
+            box-shadow: 0 10px 40px rgba(255,107,107,0.4);
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            touch-action: manipulation;
+        }
+        
+        .click-btn:active {
+            transform: scale(0.90);
+            box-shadow: 0 5px 20px rgba(255,107,107,0.6);
+        }
+        
+        .click-btn .pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255,107,107,0.2);
+            animation: pulse 2s ease-out infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1.4);
+                opacity: 0;
+            }
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .stat-box {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 12px 5px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .stat-box .number {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffd93d;
+        }
+        
+        .stat-box .label {
+            font-size: 10px;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+        
+        .upgrade-section {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .upgrade-btn {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 16px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            min-width: 100px;
+        }
+        
+        .upgrade-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .upgrade-btn .cost {
+            color: #ffd93d;
+            font-weight: 600;
+        }
+        
+        .upgrade-btn .emoji {
+            font-size: 20px;
+        }
+        
+        .reset-btn {
+            background: rgba(255,0,0,0.15);
+            border: 1px solid rgba(255,0,0,0.2);
+            color: #ff6b6b;
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+        
+        .reset-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Всплывающие +1 */
+        .float-text {
+            position: fixed;
+            font-size: 32px;
+            font-weight: 800;
+            color: #ffd93d;
+            pointer-events: none;
+            animation: floatUp 1s ease-out forwards;
+            z-index: 1000;
+            text-shadow: 0 0 20px rgba(255,217,61,0.5);
+        }
+        
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(0.5);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-120px) scale(1.5);
+            }
+        }
+        
+        .tg-btn {
+            background: #0088cc;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        
+        .tg-btn:active {
+            transform: scale(0.97);
+        }
+        
+        @media (max-width: 400px) {
+            .click-btn {
+                width: 160px;
+                height: 160px;
+                font-size: 60px;
+            }
+            .score-display {
+                font-size: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-title">🎮 Кликер</div>
+        <div class="game-subtitle">Нажимай на кнопку!</div>
+        
+        <div class="score-label">💰 ОЧКИ</div>
+        <div class="score-display" id="score">0</div>
+        
+        <button class="click-btn" id="clickBtn">
+            <span class="pulse"></span>
+            👆
+        </button>
+        
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="number" id="clicks">0</div>
+                <div class="label">Кликов</div>
+            </div>
+            <div class="stat-box">
+                <div class="number" id="cps">0</div>
+                <div class="label">В секунду</div>
+            </div>
+            <div class="stat-box">
+                <div class="number" id="level">1</div>
+                <div class="label">Уровень</div>
+            </div>
+        </div>
+        
+        <div class="upgrade-section">
+            <button class="upgrade-btn" id="upgradeClick">
+                <span class="emoji">👆</span> +1 клик<br>
+                <span class="cost">💰 10</span>
+            </button>
+            <button class="upgrade-btn" id="upgradeAuto">
+                <span class="emoji">🤖</span> Авто-клик<br>
+                <span class="cost">💰 50</span>
+            </button>
+            <button class="upgrade-btn" id="upgradeMulti">
+                <span class="emoji">⚡</span> x2 множитель<br>
+                <span class="cost">💰 100</span>
+            </button>
+        </div>
+        
+        <button class="reset-btn" id="resetBtn">🔄 Сбросить прогресс</button>
+        
+        <button class="tg-btn" id="closeBtn">✕ Закрыть</button>
+    </div>
+    
+    <script>
+        // ============================================
+        // ИГРА
+        // ============================================
+        let score = parseInt(localStorage.getItem('game_score')) || 0;
+        let totalClicks = parseInt(localStorage.getItem('game_clicks')) || 0;
+        let clickPower = parseInt(localStorage.getItem('game_clickPower')) || 1;
+        let autoClickers = parseInt(localStorage.getItem('game_autoClickers')) || 0;
+        let multiplier = parseInt(localStorage.getItem('game_multiplier')) || 1;
+        let level = 1;
+        
+        const scoreEl = document.getElementById('score');
+        const clicksEl = document.getElementById('clicks');
+        const cpsEl = document.getElementById('cps');
+        const levelEl = document.getElementById('level');
+        
+        function updateUI() {
+            scoreEl.textContent = score;
+            clicksEl.textContent = totalClicks;
+            cpsEl.textContent = autoClickers;
+            levelEl.textContent = level;
+            
+            localStorage.setItem('game_score', score);
+            localStorage.setItem('game_clicks', totalClicks);
+            localStorage.setItem('game_clickPower', clickPower);
+            localStorage.setItem('game_autoClickers', autoClickers);
+            localStorage.setItem('game_multiplier', multiplier);
+            
+            // Обновляем уровень
+            level = Math.floor(score / 100) + 1;
+            levelEl.textContent = level;
+        }
+        
+        function addScore(amount) {
+            score += amount;
+            totalClicks++;
+            updateUI();
+        }
+        
+        function showFloatText(x, y, text) {
+            const el = document.createElement('div');
+            el.className = 'float-text';
+            el.textContent = text;
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 1000);
+        }
+        
+        // ============================================
+        // КЛИК
+        // ============================================
+        document.getElementById('clickBtn').addEventListener('click', function(e) {
+            const power = clickPower * multiplier;
+            addScore(power);
+            
+            // Всплывающий текст
+            const rect = this.getBoundingClientRect();
+            const x = rect.left + rect.width / 2 - 20;
+            const y = rect.top - 20;
+            showFloatText(x, y, `+${power}`);
+            
+            // Анимация
+            this.style.transform = 'scale(0.85)';
+            setTimeout(() => this.style.transform = 'scale(1)', 100);
+        });
+        
+        // ============================================
+        // УЛУЧШЕНИЯ
+        // ============================================
+        document.getElementById('upgradeClick').addEventListener('click', function() {
+            const cost = 10 * clickPower;
+            if (score >= cost) {
+                score -= cost;
+                clickPower += 1;
+                updateUI();
+                showFloatText(window.innerWidth/2 - 40, window.innerHeight/2, '⬆️');
+            } else {
+                this.style.borderColor = '#ff6b6b';
+                setTimeout(() => this.style.borderColor = 'rgba(255,255,255,0.1)', 300);
+            }
+        });
+        
+        document.getElementById('upgradeAuto').addEventListener('click', function() {
+            const cost = 50 * (autoClickers + 1);
+            if (score >= cost) {
+                score -= cost;
+                autoClickers += 1;
+                updateUI();
+                showFloatText(window.innerWidth/2 - 40, window.innerHeight/2, '🤖');
+            } else {
+                this.style.borderColor = '#ff6b6b';
+                setTimeout(() => this.style.borderColor = 'rgba(255,255,255,0.1)', 300);
+            }
+        });
+        
+        document.getElementById('upgradeMulti').addEventListener('click', function() {
+            const cost = 100 * multiplier;
+            if (score >= cost) {
+                score -= cost;
+                multiplier *= 2;
+                updateUI();
+                showFloatText(window.innerWidth/2 - 40, window.innerHeight/2, '⚡');
+            } else {
+                this.style.borderColor = '#ff6b6b';
+                setTimeout(() => this.style.borderColor = 'rgba(255,255,255,0.1)', 300);
+            }
+        });
+        
+        // ============================================
+        // АВТО-КЛИК
+        // ============================================
+        setInterval(() => {
+            if (autoClickers > 0) {
+                const power = autoClickers * multiplier;
+                addScore(power);
+                // Показываем +1 в случайном месте
+                const x = 50 + Math.random() * (window.innerWidth - 100);
+                const y = 50 + Math.random() * (window.innerHeight - 200);
+                showFloatText(x, y, `+${power}`);
+            }
+        }, 1000);
+        
+        // ============================================
+        // СБРОС
+        // ============================================
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            if (confirm('Точно сбросить прогресс?')) {
+                score = 0;
+                totalClicks = 0;
+                clickPower = 1;
+                autoClickers = 0;
+                multiplier = 1;
+                level = 1;
+                updateUI();
+                localStorage.clear();
+                showFloatText(window.innerWidth/2 - 40, window.innerHeight/2, '🔄');
+            }
+        });
+        
+        // ============================================
+        // ЗАКРЫТИЕ (Telegram WebApp)
+        // ============================================
+        document.getElementById('closeBtn').addEventListener('click', function() {
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.close();
+            } else {
+                window.close();
+            }
+        });
+        
+        // ============================================
+        // Telegram WebApp
+        // ============================================
+        try {
+            const tg = window.Telegram?.WebApp;
+            if (tg) {
+                tg.ready();
+                tg.expand();
+                tg.MainButton.setText('📊 Статистика');
+                tg.MainButton.show();
+                tg.MainButton.onClick(() => {
+                    tg.showPopup({
+                        title: '📊 Статистика',
+                        message: `Очки: ${score}\nКликов: ${totalClicks}\nУровень: ${level}\nАвто-кликеров: ${autoClickers}\nМножитель: x${multiplier}`,
+                        buttons: [{type: 'ok'}]
+                    });
+                });
+            }
+        } catch(e) {
+            console.log('Not in Telegram WebApp');
+        }
+        
+        // ============================================
+        // ЗАПУСК
+        // ============================================
+        updateUI();
+        console.log('🎮 Кликер загружен!');
+    </script>
+</body>
+</html>
